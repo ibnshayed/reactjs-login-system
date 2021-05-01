@@ -1,8 +1,9 @@
+import DefaultLayout from "./layout/DefaultLayout";
 
 function App() {
   return (
     <div className="App">
-      <h1>Log in System</h1>
+      <DefaultLayout/>
     </div>
   );
 }
