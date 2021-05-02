@@ -11,8 +11,14 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { EMAIL_OTP_PATH, LOGIN_PATH } from "../../routes/slug";
+import { Link, useHistory } from "react-router-dom";
+import { useQuery } from "../../common/utils";
+import firebase from "../../firebase";
+import {
+  EMAIL_OTP_PATH,
+  LOGIN_PATH,
+  LOGIN_PHONE_PATH,
+} from "../../routes/slug";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,16 +34,67 @@ const useStyles = makeStyles((theme) => ({
 
 const PhoneOtpPage = () => {
   const classes = useStyles();
+  const query = useQuery();
+  const history = useHistory();
 
   const [phoneOtp, setPhoneOtp] = useState("");
+
+  const mobile = query.get("mobile");
+
+  if (!mobile) {
+    history.push(LOGIN_PHONE_PATH);
+  }
 
   useEffect(() => {
     document.title = "Phone OTP";
   }, []);
 
+  const setUpReCaptcha = () => {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          // submitHandler();
+        },
+      }
+    );
+  };
+
   const submitHandler = (e) => {
-    e.preventDefault();
-    console.log("phone OTP =====> ", phoneOtp);
+		e.preventDefault();
+		setUpReCaptcha();
+
+    console.log("phone OTP =====> ", phoneOtp, mobile);
+    const phoneNumber = mobile;
+		const appVerifier = window.recaptchaVerifier;
+    firebase
+      .auth()
+      .signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        window.confirmationResult = confirmationResult;
+        // ...
+        const code = phoneOtp;
+        confirmationResult
+          .confirm(code)
+          .then((result) => {
+            // User signed in successfully.
+						const user = result.user;
+						console.log("USER sign in", user);
+            // ...
+          })
+          .catch((error) => {
+            // User couldn't sign in (bad verification code?)
+            // ...
+          });
+      })
+      .catch((error) => {
+        // Error; SMS not sent
+        // ...
+      });
   };
 
   return (
@@ -55,25 +112,30 @@ const PhoneOtpPage = () => {
               sx={{ marginBottom: "20px" }}
               textAlign="center"
             >
-              <PhoneIphoneIcon /> OTP has been sent to your <strong>PHONE</strong>
+              <PhoneIphoneIcon /> OTP has been sent to your{" "}
+              <strong>PHONE</strong>
             </Typography>
 
             <form onSubmit={submitHandler} noValidate autoComplete="off">
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
-                    type="number"
+                    type="text"
                     inputProps={{ min: 0, style: { textAlign: "center" } }}
-										variant="standard"
-										value={phoneOtp}
+                    variant="standard"
+                    value={phoneOtp}
                     multiline={false}
                     autoFocus
                     placeholder={"SMS OTP"}
                     margin="normal"
-										fullWidth
-										onChange={e => setPhoneOtp(e.target.value)}
+                    fullWidth
+                    onChange={(e) => setPhoneOtp(e.target.value)}
                   />
                 </Grid>
+
+                {/* <Grid item xs={12}> */}
+                  <div id="recaptcha-container"></div>
+                {/* </Grid> */}
 
                 <Grid item xs={12}>
                   <Button

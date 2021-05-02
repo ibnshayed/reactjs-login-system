@@ -1,6 +1,5 @@
 import { Box, Button, Container } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
-import Badge from "@material-ui/core/Badge";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -8,8 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-import MenuIcon from "@material-ui/icons/Menu";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";

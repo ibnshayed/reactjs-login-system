@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Divider,
   FormControl,
@@ -14,15 +15,17 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import FacebookIcon from "@material-ui/icons/Facebook";
-import GoogleIcon from '@material-ui/icons/Google';
+import GoogleIcon from "@material-ui/icons/Google";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
+import { LoadingButton } from "@material-ui/lab";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { login } from "../../actions/userActions";
+import { useQuery } from "../../common/utils";
+import AlertBasic from "../../components/AlertBasic";
 import { LOGIN_PHONE_PATH, SIGNUP_PATH } from "../../routes/slug";
-import {useQuery} from '../../common/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,24 +43,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginPage = () => {
-	const classes = useStyles();
-	const query = useQuery()
-	const history = useHistory()
+  const classes = useStyles();
+  const query = useQuery();
+  const history = useHistory();
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
-	
-	const path = query.get('next');
-	const redirect =  path ? path : '/';
+  const [showPassword, setShowPassword] = useState(false);
+
+  const path = query.get("next");
+  const redirect = path ? path : "/";
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector(state => state.userLogin);
+  const userLogin = useSelector((state) => state.userLogin);
   const { error, loading, userInfo } = userLogin;
-  
-	useEffect(() => {
-		document.title = 'Login'
+
+  useEffect(() => {
+    document.title = "Login";
     if (userInfo) {
       history.push(redirect);
     }
@@ -66,7 +69,6 @@ const LoginPage = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(phoneNumber, password));
-
   };
 
   return (
@@ -82,6 +84,14 @@ const LoginPage = () => {
             <Typography variant="h4" sx={{ marginBottom: "20px" }}>
               Log in
             </Typography>
+
+            {error && (
+              <Box mb={3}>
+                <AlertBasic type="error" title="Error">
+                  {error ? error : "nothing"}
+                </AlertBasic>
+              </Box>
+            )}
 
             <form onSubmit={submitHandler} noValidate autoComplete="off">
               <Grid container spacing={4}>
@@ -140,7 +150,7 @@ const LoginPage = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Button
+                  {/* <Button
                     type="submit"
                     variant="contained"
                     color="primary"
@@ -152,7 +162,22 @@ const LoginPage = () => {
                     }}
                   >
                     Sign in with password
-                  </Button>
+                  </Button> */}
+
+                  <LoadingButton
+                    loading={loading}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    size="large"
+                    sx={{
+                      textTransform: "none",
+                      // fontSize: "20px",
+                    }}
+                  >
+                    Sign in with password
+                  </LoadingButton>
                 </Grid>
                 <Grid item xs={12}>
                   <Divider textAlign="center">
@@ -170,9 +195,9 @@ const LoginPage = () => {
                     sx={{
                       textTransform: "none",
                       // fontSize: "18px",
-										}}
-										component={Link}
-										to={LOGIN_PHONE_PATH}
+                    }}
+                    component={Link}
+                    to={LOGIN_PHONE_PATH}
                   >
                     Forget password? Sign in via other means instead!
                   </Button>

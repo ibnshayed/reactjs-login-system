@@ -18,7 +18,7 @@ export const login = (phoneNumber, password) => async (dispatch) => {
       },
     };
 
-    // actual process of authentication
+    // actual process of authentication with actual backend server
     // const { data } = await axios.post(
     //   "/api/users/login/",
     //   { phone: phoneNumber, password: password },

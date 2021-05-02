@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Divider,
   Grid,
@@ -9,11 +10,13 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
-import GoogleIcon from '@material-ui/icons/Google';
+import GoogleIcon from "@material-ui/icons/Google";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { LOGIN_PATH, SIGNUP_PATH } from "../../routes/slug";
+import { Link, useHistory } from "react-router-dom";
+import AlertBasic from "../../components/AlertBasic";
+import { LOGIN_PATH, PHONE_OTP_PATH, SIGNUP_PATH } from "../../routes/slug";
+import firebase from "../../firebase"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,16 +35,46 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginPhonePage = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  useEffect(() => {
+    document.title = "Sign with Phone";
+	}, []);
 	
-	useEffect(() => {
-		document.title = "Sign with Phone"
-  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("phone Number =====> ", phoneNumber);
+		if (phoneNumber.length >= 11) {
+			// setUpReCaptcha();
+      const mobileNumber = phoneNumber;
+      const appVerifier = new firebase.auth.RecaptchaVerifier(
+				"recaptcha-container",
+				{
+					size: "invisible",
+					callback: (response) => {
+						// reCAPTCHA solved, allow signInWithPhoneNumber.
+						console.log('Captcha resolved');
+					},
+				}
+			);
+      firebase
+        .auth()
+        .signInWithPhoneNumber(mobileNumber, appVerifier)
+        .then((confirmationResult) => {
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          window.confirmationResult = confirmationResult;
+          // ...
+        })
+        .catch((error) => {
+          // Error; SMS not sent
+          // ...
+        });
+      history.push(`${PHONE_OTP_PATH}/?mobile=${phoneNumber}`);
+    }
   };
 
   return (
@@ -58,11 +91,20 @@ const LoginPhonePage = () => {
               Log in
             </Typography>
 
+            {phoneNumber &&
+              (phoneNumber.length < 11) && (
+                <Box mb={4}>
+                  <AlertBasic type="warning" title="Warning">
+                    Please enter a valid phone number
+                  </AlertBasic>
+                </Box>
+              )}
+
             <form onSubmit={submitHandler} noValidate autoComplete="off">
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
-                    type="number"
+                    type="text"
                     value={phoneNumber}
                     label="Enter your phone number"
                     variant="outlined"
@@ -77,7 +119,11 @@ const LoginPhonePage = () => {
                       ),
                     }}
                   />
-                </Grid>
+								</Grid>
+								
+								{/* <Grid item xs={12}> */}
+									<div id="recaptcha-container"></div>
+								{/* </Grid> */}
 
                 <Grid item xs={12}>
                   <Button
@@ -88,7 +134,6 @@ const LoginPhonePage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      fontSize: "20px",
                     }}
                   >
                     Sign in
@@ -109,10 +154,9 @@ const LoginPhonePage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      fontSize: "18px",
                     }}
-										component={Link}
-										to={LOGIN_PATH}
+                    component={Link}
+                    to={LOGIN_PATH}
                   >
                     Sign in with password
                   </Button>
