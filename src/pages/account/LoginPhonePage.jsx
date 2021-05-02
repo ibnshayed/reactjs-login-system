@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
+import GoogleIcon from '@material-ui/icons/Google';
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -143,7 +144,7 @@ const LoginPhonePage = () => {
                       variant="contained"
                       color="secondary"
                       fullWidth
-                      // startIcon={<GoogleIcon />}
+                      startIcon={<GoogleIcon />}
                     >
                       Sign with Google
                     </Button>

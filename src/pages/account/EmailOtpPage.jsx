@@ -85,7 +85,7 @@ const EmailOtpPage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      fontSize: "20px",
+                      // fontSize: "20px",
                     }}
                   >
                     Submit
@@ -106,7 +106,7 @@ const EmailOtpPage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      fontSize: "18px",
+                      // fontSize: "18px",
                     }}
                     component={Link}
                     to={EMAIL_OTP_PATH}

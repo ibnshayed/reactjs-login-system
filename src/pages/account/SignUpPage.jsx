@@ -174,7 +174,7 @@ const SignUpPage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      fontSize: "20px",
+                      // fontSize: "20px",
                     }}
                   >
                     Sign up

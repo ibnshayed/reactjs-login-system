@@ -14,7 +14,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import FacebookIcon from "@material-ui/icons/Facebook";
-// import GoogleIcon from '@material-ui/icons/Google';
+import GoogleIcon from '@material-ui/icons/Google';
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { useState } from "react";
@@ -128,7 +128,7 @@ const LoginPage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      fontSize: "20px",
+                      // fontSize: "20px",
                     }}
                   >
                     Sign in with password
@@ -149,7 +149,7 @@ const LoginPage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      fontSize: "18px",
+                      // fontSize: "18px",
 										}}
 										component={Link}
 										to={LOGIN_PHONE_PATH}
@@ -169,7 +169,7 @@ const LoginPage = () => {
                   </Divider>
                 </Grid>
                 <Grid item container spacing={2}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <Button
                       variant="contained"
                       color="primary"
@@ -179,12 +179,12 @@ const LoginPage = () => {
                       Sign with Facebook
                     </Button>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={6}>
                     <Button
                       variant="contained"
                       color="secondary"
                       fullWidth
-                      // startIcon={<GoogleIcon />}
+                      startIcon={<GoogleIcon />}
                     >
                       Sign with Google
                     </Button>
