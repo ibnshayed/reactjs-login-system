@@ -17,9 +17,12 @@ import FacebookIcon from "@material-ui/icons/Facebook";
 import GoogleIcon from '@material-ui/icons/Google';
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { login } from "../../actions/userActions";
 import { LOGIN_PHONE_PATH, SIGNUP_PATH } from "../../routes/slug";
+import {useQuery} from '../../common/utils'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,16 +40,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginPage = () => {
-  const classes = useStyles();
+	const classes = useStyles();
+	const query = useQuery()
+	const history = useHistory()
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	
+	const path = query.get('next');
+	const redirect =  path ? path : '/';
+
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { error, loading, userInfo } = userLogin;
+  
+	useEffect(() => {
+		document.title = 'Login'
+    if (userInfo) {
+      history.push(redirect);
+    }
+  }, [history, userInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("phone Number =====> ", phoneNumber);
-    console.log("Password =====> ", password);
+    dispatch(login(phoneNumber, password));
+
   };
 
   return (
