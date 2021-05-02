@@ -1,25 +1,18 @@
 import {
   Button,
   Divider,
-  FormControl,
   Grid,
-  IconButton,
   InputAdornment,
-  InputLabel,
-  OutlinedInput,
   Paper,
   TextField,
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Visibility, VisibilityOff } from "@material-ui/icons";
 import FacebookIcon from "@material-ui/icons/Facebook";
-// import GoogleIcon from '@material-ui/icons/Google';
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { LOGIN_PHONE_PATH, SIGNUP_PATH } from "../../routes/slug";
+import { LOGIN_PATH, SIGNUP_PATH } from "../../routes/slug";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,17 +29,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginPage = () => {
+const LoginPhonePage = () => {
   const classes = useStyles();
 
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+	
+	useEffect(() => {
+		document.title = "Sign with Phone"
+  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("phone Number =====> ", phoneNumber);
-    console.log("Password =====> ", password);
   };
 
   return (
@@ -85,41 +79,6 @@ const LoginPage = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <FormControl
-                    // className={clsx(classes.margin, classes.textField)}
-                    variant="outlined"
-                    fullWidth
-                  >
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <LockOpenIcon />
-                        </InputAdornment>
-                      }
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() => setShowPassword(!showPassword)}
-                            // onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      labelWidth={70}
-                    />
-                  </FormControl>
-                </Grid>
-
-                <Grid item xs={12}>
                   <Button
                     type="submit"
                     variant="contained"
@@ -131,7 +90,7 @@ const LoginPage = () => {
                       fontSize: "20px",
                     }}
                   >
-                    Sign in with password
+                    Sign in
                   </Button>
                 </Grid>
                 <Grid item xs={12}>
@@ -150,11 +109,11 @@ const LoginPage = () => {
                     sx={{
                       textTransform: "none",
                       fontSize: "18px",
-										}}
+                    }}
 										component={Link}
-										to={LOGIN_PHONE_PATH}
+										to={LOGIN_PATH}
                   >
-                    Forget password? Sign in via other means instead!
+                    Sign in with password
                   </Button>
                 </Grid>
                 <Grid item xs={12}>
@@ -199,4 +158,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default LoginPhonePage;
