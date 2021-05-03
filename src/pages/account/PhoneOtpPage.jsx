@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Divider,
   Grid,
@@ -10,11 +11,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
+import { LoadingButton } from "@material-ui/lab";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { login } from "../../actions/userActions";
 import { useQuery } from "../../common/utils";
+import AlertBasic from "../../components/AlertBasic";
 import firebase from "../../firebase";
 import {
   DASHBOARD_PATH,
@@ -42,6 +45,8 @@ const PhoneOtpPage = () => {
 
   const [phoneOtp, setPhoneOtp] = useState("");
   const [confirmationResult, setConfirmationResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   const mobile = query.get("mobile");
 
@@ -78,23 +83,24 @@ const PhoneOtpPage = () => {
       .catch((error) => {
         // Error; SMS not sent
         // ...
-        console.log(error);
+        // console.log(error);
+        setLoginError(error.message);
       });
     // [END auth_phone_signin]
   };
 
   useEffect(() => {
     document.title = "Phone OTP";
-    phoneSignIn();
+    if (mobile) {
+      phoneSignIn();
+    }
   }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    console.log("phone OTP =====> ", phoneOtp, mobile);
-
-    /** @type {firebase.auth.ConfirmationResult} */
-    // const confirmationResult = undefined;
+    // console.log("phone OTP =====> ", phoneOtp, mobile);
+    setLoading(true);
 
     // [START auth_phone_verify_code]
     const code = phoneOtp;
@@ -108,13 +114,16 @@ const PhoneOtpPage = () => {
         console.log(user.phoneNumber);
         dispatch(login(user.phoneNumber));
         if (user && user.phoneNumber) {
+          setLoading(false);
           history.push(DASHBOARD_PATH);
         }
       })
       .catch((error) => {
+        setLoading(false);
         // User couldn't sign in (bad verification code?)
         // ...
-        console.log(error);
+        // console.log(error);
+        setLoginError(error.message);
       });
     // [END auth_phone_verify_code]
   };
@@ -138,6 +147,14 @@ const PhoneOtpPage = () => {
               <strong>PHONE</strong>
             </Typography>
 
+            {loginError && (
+              <Box mb={4}>
+                <AlertBasic type="error" title="Error">
+                  {loginError}
+                </AlertBasic>
+              </Box>
+            )}
+
             <form onSubmit={submitHandler} autoComplete="off">
               <Grid container spacing={4}>
                 <Grid item xs={12}>
@@ -159,7 +176,8 @@ const PhoneOtpPage = () => {
                 <div id="recaptcha-container"></div>
 
                 <Grid item xs={12}>
-                  <Button
+                  <LoadingButton
+                    loading={loading}
                     type="submit"
                     variant="contained"
                     color="primary"
@@ -171,7 +189,7 @@ const PhoneOtpPage = () => {
                     }}
                   >
                     Submit
-                  </Button>
+                  </LoadingButton>
                 </Grid>
                 <Grid item xs={12}>
                   <Divider textAlign="center">

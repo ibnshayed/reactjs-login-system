@@ -90,11 +90,11 @@ const LoginPage = () => {
               </Box>
             )}
 
-						<form
-							onSubmit={submitHandler}
-							// noValidate
-							autoComplete="off"
-						>
+            <form
+              onSubmit={submitHandler}
+              // noValidate
+              autoComplete="off"
+            >
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
@@ -138,7 +138,6 @@ const LoginPage = () => {
                           <IconButton
                             aria-label="toggle password visibility"
                             onClick={() => setShowPassword(!showPassword)}
-                            // onMouseDown={handleMouseDownPassword}
                             edge="end"
                           >
                             {showPassword ? <Visibility /> : <VisibilityOff />}

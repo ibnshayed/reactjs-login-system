@@ -1,10 +1,10 @@
 import {
-  Button,
-  Divider,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
+	Button,
+	Divider,
+	Grid,
+	Paper,
+	TextField,
+	Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
@@ -12,7 +12,7 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { EMAIL_OTP_PATH, LOGIN_PATH } from "../../routes/slug";
+import { LOGIN_PATH, PHONE_OTP_PATH } from "../../routes/slug";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,8 +71,8 @@ const EmailOtpPage = () => {
                     autoFocus
                     placeholder={"Email OTP"}
                     margin="normal"
-										fullWidth
-										required
+                    fullWidth
+                    required
                     onChange={(e) => setEmailOtp(e.target.value)}
                   />
                 </Grid>
@@ -110,7 +110,7 @@ const EmailOtpPage = () => {
                       // fontSize: "18px",
                     }}
                     component={Link}
-                    to={EMAIL_OTP_PATH}
+                    to={PHONE_OTP_PATH}
                     startIcon={<MailOutlineIcon />}
                   >
                     Send OTP to my phone
