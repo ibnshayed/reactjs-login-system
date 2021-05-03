@@ -22,11 +22,6 @@
 
 ## For User Login
 
-`
-phoneNumber: +8801745236956,
-password: abdul1234
+` phoneNumber: +8801745236956, password: abdul1234 `
 
-phoneNumber: +8801684522301,
-password: newpassword
-
-`
+` phoneNumber: +8801684522301, password: newpassword `
