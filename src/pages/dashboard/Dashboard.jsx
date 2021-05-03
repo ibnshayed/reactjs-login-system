@@ -1,7 +1,7 @@
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Header from "../../components/Header";
 import { DASHBOARD_PATH, LOGIN_PATH } from "../../routes/slug";
@@ -19,10 +19,9 @@ const Dashboard = () => {
   const classes = useStyles();
 
   const history = useHistory();
-  const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { error, loading, userInfo } = userLogin;
+  const {userInfo } = userLogin;
 
   if (!userInfo) {
     history.push(`${LOGIN_PATH}?next=${DASHBOARD_PATH}`);

@@ -1,4 +1,5 @@
 import {
+	Box,
   Button,
   FormControl,
   Grid,
@@ -12,15 +13,20 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 // import GoogleIcon from '@material-ui/icons/Google';
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
+import { LoadingButton } from "@material-ui/lab";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { register } from "../../actions/userActions";
+import { useQuery } from "../../common/utils";
+import AlertBasic from "../../components/AlertBasic";
 import { LOGIN_PATH } from "../../routes/slug";
-import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -38,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUpPage = () => {
   const classes = useStyles();
+  const query = useQuery();
+  const history = useHistory();
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [name, setName] = useState("");
@@ -45,9 +53,20 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-	useEffect(() => {
-		document.title = "Sign up"
-  }, []);
+  const dispatch = useDispatch();
+
+  const path = query.get("next");
+  const redirect = path ? path : "/";
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { error, loading, userInfo } = userLogin;
+
+  useEffect(() => {
+    document.title = "Sign Up";
+    if (userInfo) {
+      history.push(redirect);
+    }
+  }, [history, userInfo, redirect]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -55,8 +74,9 @@ const SignUpPage = () => {
     console.log("Name =====> ", name);
     console.log("Email =====> ", email);
     console.log("Password =====> ", password);
-	};
 
+    dispatch(register(phoneNumber, name, email, password));
+  };
 
   return (
     <div>
@@ -69,14 +89,22 @@ const SignUpPage = () => {
         <Grid item>
           <Paper className={classes.login}>
             <Typography variant="h4" sx={{ marginBottom: "20px" }}>
-              Create a new account
+							Create a new account
             </Typography>
+						
+						{error && (
+              <Box mb={3}>
+                <AlertBasic type="error" title="Error">
+                  {error && error}
+                </AlertBasic>
+              </Box>
+            )}
 
             <form onSubmit={submitHandler} noValidate autoComplete="off">
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
-                    type="number"
+                    type="text"
                     value={phoneNumber}
                     label="Enter your phone number"
                     variant="outlined"
@@ -166,7 +194,8 @@ const SignUpPage = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Button
+                  <LoadingButton
+                    loading={loading}
                     type="submit"
                     variant="contained"
                     color="primary"
@@ -178,19 +207,19 @@ const SignUpPage = () => {
                     }}
                   >
                     Sign up
-                  </Button>
+                  </LoadingButton>
                 </Grid>
                 <Grid item xs={12}>
-									{/* <Link to={LOGIN_PATH}> */}
-										<Button
-											variant='text'
-											startIcon={<ArrowBackOutlinedIcon />}
-											component={Link}
-											to={LOGIN_PATH}
-										>
-										Go back to sign in
-										</Button>
-										
+                  {/* <Link to={LOGIN_PATH}> */}
+                  <Button
+                    variant="text"
+                    startIcon={<ArrowBackOutlinedIcon />}
+                    component={Link}
+                    to={LOGIN_PATH}
+                  >
+                    Go back to sign in
+                  </Button>
+
                   {/* </Link> */}
                 </Grid>
               </Grid>

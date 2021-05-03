@@ -1,16 +1,32 @@
-
-
 {
-	"users": [
-		{
-			"id": 1,
-			"phoneNumber": "01685966035",
-			"password": "password1"
-		},
-		{
-			"id": 2,
-			"phoneNumber": "01738615914",
-			"password": "password2"
-		}
-	]
+  "users": [
+    {
+      "id": 1,
+      "phoneNumber": "+8801685966035",
+      "name": "Md. Al - Emran",
+      "email": "emran@gmail.com",
+      "password": "password1"
+    },
+    {
+      "id": 2,
+      "phoneNumber": "+8801738615914",
+      "name": "Md. Karim Hossain",
+      "email": "karim@hotmail.com",
+      "password": "password2"
+    },
+    {
+      "phoneNumber": "+8801745236956",
+      "name": "Abdul Jabbar",
+      "email": "abdul@mail.com",
+      "password": "abdul1234",
+      "id": 3
+    },
+    {
+      "phoneNumber": "+8801684522301",
+      "name": "Abdur Rahim",
+      "email": "rahim@gmail.com",
+      "password": "newpassword",
+      "id": 4
+    }
+  ]
 }

@@ -88,7 +88,7 @@ const LoginPage = () => {
             {error && (
               <Box mb={3}>
                 <AlertBasic type="error" title="Error">
-                  {error ? error : "nothing"}
+                  {error && error}
                 </AlertBasic>
               </Box>
             )}
@@ -204,7 +204,7 @@ const LoginPage = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="body1" textAlign="center">
-                    Don't have an account? <Link to={SIGNUP_PATH}>Sign Up</Link>
+                    Don't have an account? <Link to={`${SIGNUP_PATH}?next=${redirect}`}>Sign Up</Link>
                   </Typography>
                 </Grid>
 
