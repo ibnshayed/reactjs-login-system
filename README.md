@@ -2,7 +2,7 @@
 
 ## Step 1:
 
-`git clone https://github.com/ibnshayed/reactjs-login-system.git`
+### `git clone https://github.com/ibnshayed/reactjs-login-system.git`
 
 ## Step 2:
 
