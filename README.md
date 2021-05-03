@@ -15,3 +15,18 @@
 ## Step 4:
 
 ### on another comman line run: `json-server --watch data/db.json --port 9000`
+
+## Number input Pattern must be start with `+`:
+
+### Expamle - `+8801234567890`
+
+## For User Login
+
+`
+phoneNumber: +8801745236956,
+password: abdul1234
+
+phoneNumber: +8801684522301,
+password: newpassword
+
+`

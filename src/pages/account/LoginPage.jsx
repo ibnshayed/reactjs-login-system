@@ -2,12 +2,9 @@ import {
   Box,
   Button,
   Divider,
-  FormControl,
   Grid,
   IconButton,
   InputAdornment,
-  InputLabel,
-  OutlinedInput,
   Paper,
   TextField,
   Typography,
@@ -88,22 +85,28 @@ const LoginPage = () => {
             {error && (
               <Box mb={3}>
                 <AlertBasic type="error" title="Error">
-                  {error && error}
+                  {error && <p>Phone Number or Password don't match</p>}
                 </AlertBasic>
               </Box>
             )}
 
-            <form onSubmit={submitHandler} noValidate autoComplete="off">
+						<form
+							onSubmit={submitHandler}
+							// noValidate
+							autoComplete="off"
+						>
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
-                    type="number"
+                    type="text"
                     value={phoneNumber}
                     label="Enter your phone number"
                     variant="outlined"
                     fullWidth
                     required
                     onChange={(e) => setPhoneNumber(e.target.value)}
+                    // error={phoneNumber.length <= 0}
+                    autoFocus
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -115,24 +118,22 @@ const LoginPage = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <FormControl
-                    // className={clsx(classes.margin, classes.textField)}
+                  <TextField
                     variant="outlined"
+                    type={showPassword ? "text" : "password"}
+                    label="Password"
+                    // labelWidth={70}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     fullWidth
-                  >
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      startAdornment={
+                    required
+                    InputProps={{
+                      startAdornment: (
                         <InputAdornment position="start">
                           <LockOpenIcon />
                         </InputAdornment>
-                      }
-                      endAdornment={
+                      ),
+                      endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
@@ -143,27 +144,12 @@ const LoginPage = () => {
                             {showPassword ? <Visibility /> : <VisibilityOff />}
                           </IconButton>
                         </InputAdornment>
-                      }
-                      labelWidth={70}
-                    />
-                  </FormControl>
+                      ),
+                    }}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>
-                  {/* <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    size="large"
-                    sx={{
-                      textTransform: "none",
-                      // fontSize: "20px",
-                    }}
-                  >
-                    Sign in with password
-                  </Button> */}
-
                   <LoadingButton
                     loading={loading}
                     type="submit"
@@ -173,7 +159,6 @@ const LoginPage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      // fontSize: "20px",
                     }}
                   >
                     Sign in with password
@@ -204,7 +189,8 @@ const LoginPage = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="body1" textAlign="center">
-                    Don't have an account? <Link to={`${SIGNUP_PATH}?next=${redirect}`}>Sign Up</Link>
+                    Don't have an account?{" "}
+                    <Link to={`${SIGNUP_PATH}?next=${redirect}`}>Sign Up</Link>
                   </Typography>
                 </Grid>
 

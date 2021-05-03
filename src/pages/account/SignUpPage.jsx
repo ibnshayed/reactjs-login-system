@@ -1,12 +1,9 @@
 import {
-	Box,
+  Box,
   Button,
-  FormControl,
   Grid,
   IconButton,
   InputAdornment,
-  InputLabel,
-  OutlinedInput,
   Paper,
   TextField,
   Typography,
@@ -89,10 +86,10 @@ const SignUpPage = () => {
         <Grid item>
           <Paper className={classes.login}>
             <Typography variant="h4" sx={{ marginBottom: "20px" }}>
-							Create a new account
+              Create a new account
             </Typography>
-						
-						{error && (
+
+            {error && (
               <Box mb={3}>
                 <AlertBasic type="error" title="Error">
                   {error && error}
@@ -100,7 +97,11 @@ const SignUpPage = () => {
               </Box>
             )}
 
-            <form onSubmit={submitHandler} noValidate autoComplete="off">
+            <form
+              onSubmit={submitHandler}
+              // noValidate
+              autoComplete="off"
+            >
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
@@ -159,24 +160,21 @@ const SignUpPage = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <FormControl
-                    // className={clsx(classes.margin, classes.textField)}
+                  <TextField
                     variant="outlined"
+                    type={showPassword ? "text" : "password"}
+                    label="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     fullWidth
-                  >
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      startAdornment={
+                    required
+                    InputProps={{
+                      startAdornment: (
                         <InputAdornment position="start">
                           <LockOpenIcon />
                         </InputAdornment>
-                      }
-                      endAdornment={
+                      ),
+                      endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
@@ -187,10 +185,9 @@ const SignUpPage = () => {
                             {showPassword ? <Visibility /> : <VisibilityOff />}
                           </IconButton>
                         </InputAdornment>
-                      }
-                      labelWidth={70}
-                    />
-                  </FormControl>
+                      ),
+                    }}
+                  />
                 </Grid>
 
                 <Grid item xs={12}>

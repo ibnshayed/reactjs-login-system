@@ -17,7 +17,7 @@ import { login } from "../../actions/userActions";
 import { useQuery } from "../../common/utils";
 import firebase from "../../firebase";
 import {
-	DASHBOARD_PATH,
+  DASHBOARD_PATH,
   EMAIL_OTP_PATH,
   LOGIN_PATH,
   LOGIN_PHONE_PATH,
@@ -40,12 +40,12 @@ const PhoneOtpPage = () => {
   const query = useQuery();
   const history = useHistory();
 
-	const [phoneOtp, setPhoneOtp] = useState("");
-	const [confirmationResult, setConfirmationResult] = useState('')
+  const [phoneOtp, setPhoneOtp] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState("");
 
-	const mobile = query.get("mobile");
-	
-	const dispatch = useDispatch()
+  const mobile = query.get("mobile");
+
+  const dispatch = useDispatch();
 
   if (!mobile) {
     history.push(LOGIN_PHONE_PATH);
@@ -73,7 +73,7 @@ const PhoneOtpPage = () => {
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
         // ...
-				setConfirmationResult(confirmationResult)
+        setConfirmationResult(confirmationResult);
       })
       .catch((error) => {
         // Error; SMS not sent
@@ -81,7 +81,7 @@ const PhoneOtpPage = () => {
         console.log(error);
       });
     // [END auth_phone_signin]
-  }
+  };
 
   useEffect(() => {
     document.title = "Phone OTP";
@@ -104,18 +104,17 @@ const PhoneOtpPage = () => {
         // User signed in successfully.
         const user = result.user;
         // ...
-				console.log(user);
-				console.log(user.phoneNumber);
-				dispatch(login(user.phoneNumber))
-				if (user && user.phoneNumber) {
-					history.push(DASHBOARD_PATH)
-				}
-
+        console.log(user);
+        console.log(user.phoneNumber);
+        dispatch(login(user.phoneNumber));
+        if (user && user.phoneNumber) {
+          history.push(DASHBOARD_PATH);
+        }
       })
       .catch((error) => {
         // User couldn't sign in (bad verification code?)
         // ...
-				console.log(error);
+        console.log(error);
       });
     // [END auth_phone_verify_code]
   };
@@ -139,7 +138,7 @@ const PhoneOtpPage = () => {
               <strong>PHONE</strong>
             </Typography>
 
-            <form onSubmit={submitHandler} noValidate autoComplete="off">
+            <form onSubmit={submitHandler} autoComplete="off">
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
@@ -152,6 +151,7 @@ const PhoneOtpPage = () => {
                     placeholder={"SMS OTP"}
                     margin="normal"
                     fullWidth
+                    required
                     onChange={(e) => setPhoneOtp(e.target.value)}
                   />
                 </Grid>

@@ -59,7 +59,7 @@ const EmailOtpPage = () => {
               <strong>EMAIL</strong>
             </Typography>
 
-            <form onSubmit={submitHandler} noValidate autoComplete="off">
+            <form onSubmit={submitHandler} autoComplete="off">
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
@@ -71,7 +71,8 @@ const EmailOtpPage = () => {
                     autoFocus
                     placeholder={"Email OTP"}
                     margin="normal"
-                    fullWidth
+										fullWidth
+										required
                     onChange={(e) => setEmailOtp(e.target.value)}
                   />
                 </Grid>

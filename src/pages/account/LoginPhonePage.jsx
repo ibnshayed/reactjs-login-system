@@ -72,7 +72,7 @@ const LoginPhonePage = () => {
               </Box>
             )}
 
-            <form onSubmit={submitHandler} noValidate autoComplete="off">
+            <form onSubmit={submitHandler} autoComplete="off">
               <Grid container spacing={4}>
                 <Grid item xs={12}>
                   <TextField
