@@ -1,10 +1,10 @@
 import {
-	Button,
-	Divider,
-	Grid,
-	Paper,
-	TextField,
-	Typography
+  Button,
+  Divider,
+  Grid,
+  Paper,
+  TextField,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
@@ -12,6 +12,7 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "../../common/utils";
 import { LOGIN_PATH, PHONE_OTP_PATH } from "../../routes/slug";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +30,12 @@ const useStyles = makeStyles((theme) => ({
 const EmailOtpPage = () => {
   const classes = useStyles();
 
+  const query = useQuery();
+
   const [emailOtp, setEmailOtp] = useState("");
+
+  const mobile = query.get("mobile");
+
 
   useEffect(() => {
     document.title = "Phone OTP";
@@ -37,7 +43,6 @@ const EmailOtpPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("phone OTP =====> ", emailOtp);
   };
 
   return (
@@ -107,10 +112,9 @@ const EmailOtpPage = () => {
                     size="large"
                     sx={{
                       textTransform: "none",
-                      // fontSize: "18px",
                     }}
                     component={Link}
-                    to={PHONE_OTP_PATH}
+                    to={`${PHONE_OTP_PATH}/?mobile=+${mobile}`}
                     startIcon={<MailOutlineIcon />}
                   >
                     Send OTP to my phone

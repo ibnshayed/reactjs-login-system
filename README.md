@@ -10,9 +10,7 @@
 
 ## Step 3
 
-### then run: `npm run dev`
-
-#### `npm run dev` helps to run: `npm start & json-server --watch data/db.json --port 9000` togather
+### then run: `npm start`
 
 ## Number input Pattern must be start with `+`
 

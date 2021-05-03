@@ -15,7 +15,7 @@ import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AlertBasic from "../../components/AlertBasic";
-import { LOGIN_PATH, PHONE_OTP_PATH, SIGNUP_PATH } from "../../routes/slug";
+import { EMAIL_OTP_PATH, LOGIN_PATH, SIGNUP_PATH } from "../../routes/slug";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,9 +44,9 @@ const LoginPhonePage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("phone Number =====> ", phoneNumber);
+    // console.log("phone Number =====> ", phoneNumber);
     if (phoneNumber.length >= 11) {
-      history.push(`${PHONE_OTP_PATH}/?mobile=${phoneNumber}`);
+      history.push(`${EMAIL_OTP_PATH}/?mobile=${phoneNumber}`);
     }
   };
 

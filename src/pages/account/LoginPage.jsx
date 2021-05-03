@@ -63,6 +63,10 @@ const LoginPage = () => {
     }
   }, [history, userInfo, redirect]);
 
+  const showPasswordHandler = () => {
+    setShowPassword(!showPassword);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(phoneNumber, password));
@@ -137,7 +141,7 @@ const LoginPage = () => {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={showPasswordHandler}
                             edge="end"
                           >
                             {showPassword ? <Visibility /> : <VisibilityOff />}

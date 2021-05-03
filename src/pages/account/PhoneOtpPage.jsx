@@ -94,7 +94,7 @@ const PhoneOtpPage = () => {
     if (mobile) {
       phoneSignIn();
     }
-  }, []);
+  }, [mobile]);
 
   const submitHandler = (e) => {
     e.preventDefault();

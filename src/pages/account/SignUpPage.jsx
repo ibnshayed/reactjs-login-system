@@ -65,12 +65,16 @@ const SignUpPage = () => {
     }
   }, [history, userInfo, redirect]);
 
+  const showPasswordHandler = () => {
+    setShowPassword(!showPassword);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log("phone Number =====> ", phoneNumber);
-    console.log("Name =====> ", name);
-    console.log("Email =====> ", email);
-    console.log("Password =====> ", password);
+    // console.log("phone Number =====> ", phoneNumber);
+    // console.log("Name =====> ", name);
+    // console.log("Email =====> ", email);
+    // console.log("Password =====> ", password);
 
     dispatch(register(phoneNumber, name, email, password));
   };
@@ -178,7 +182,7 @@ const SignUpPage = () => {
                         <InputAdornment position="end">
                           <IconButton
                             aria-label="toggle password visibility"
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() => showPasswordHandler()}
                             // onMouseDown={handleMouseDownPassword}
                             edge="end"
                           >

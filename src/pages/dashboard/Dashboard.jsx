@@ -35,7 +35,7 @@ const Dashboard = () => {
     <div>
       <Header />
       <div className={classes.root}>
-        <Typography variant="h1">Welcome to the Dashboard</Typography>
+        <Typography variant="h6">Welcome to the Dashboard</Typography>
       </div>
     </div>
   );
