@@ -10,11 +10,9 @@
 
 ## Step 3
 
-### then run: `npm start`
+### then run: `npm run dev`
 
-## Step 4
-
-### on another comman line run: `json-server --watch data/db.json --port 9000`
+#### npm run dev runs: `npm start & json-server --watch data/db.json --port 9000`
 
 ## Number input Pattern must be start with `+`
 
@@ -22,6 +20,6 @@
 
 ## For User Login
 
-` phoneNumber: +8801745236956, password: abdul1234 `
+### ` phoneNumber: +8801745236956, password: abdul1234 `
 
-` phoneNumber: +8801684522301, password: newpassword `
+### ` phoneNumber: +8801684522301, password: newpassword `
