@@ -146,7 +146,7 @@ const Header = () => {
             </Button>
 
             <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
+            {/* <div className={classes.sectionDesktop}> */}
 
               {userInfo ? (
                 <IconButton
@@ -174,7 +174,7 @@ const Header = () => {
                   Login
                 </Button>
               )}
-            </div>            
+            {/* </div>             */}
           </Toolbar>
         </Container>
       </AppBar>

@@ -11,10 +11,13 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { login } from "../../actions/userActions";
 import { useQuery } from "../../common/utils";
 import firebase from "../../firebase";
 import {
+	DASHBOARD_PATH,
   EMAIL_OTP_PATH,
   LOGIN_PATH,
   LOGIN_PHONE_PATH,
@@ -37,38 +40,31 @@ const PhoneOtpPage = () => {
   const query = useQuery();
   const history = useHistory();
 
-  const [phoneOtp, setPhoneOtp] = useState("");
+	const [phoneOtp, setPhoneOtp] = useState("");
+	const [confirmationResult, setConfirmationResult] = useState('')
 
-  const mobile = query.get("mobile");
+	const mobile = query.get("mobile");
+	
+	const dispatch = useDispatch()
 
   if (!mobile) {
     history.push(LOGIN_PHONE_PATH);
   }
 
-  useEffect(() => {
-    document.title = "Phone OTP";
-  }, []);
-
-  const setUpReCaptcha = () => {
+  const phoneSignIn = () => {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
       "recaptcha-container",
       {
         size: "invisible",
         callback: (response) => {
           // reCAPTCHA solved, allow signInWithPhoneNumber.
-          // submitHandler();
+          console.log("recaptchaVerifier resolved");
         },
       }
     );
-  };
 
-  const submitHandler = (e) => {
-		e.preventDefault();
-		setUpReCaptcha();
-
-    console.log("phone OTP =====> ", phoneOtp, mobile);
-    const phoneNumber = mobile;
-		const appVerifier = window.recaptchaVerifier;
+    const phoneNumber = `+${mobile}`;
+    const appVerifier = window.recaptchaVerifier;
     firebase
       .auth()
       .signInWithPhoneNumber(phoneNumber, appVerifier)
@@ -77,24 +73,51 @@ const PhoneOtpPage = () => {
         // user in with confirmationResult.confirm(code).
         window.confirmationResult = confirmationResult;
         // ...
-        const code = phoneOtp;
-        confirmationResult
-          .confirm(code)
-          .then((result) => {
-            // User signed in successfully.
-						const user = result.user;
-						console.log("USER sign in", user);
-            // ...
-          })
-          .catch((error) => {
-            // User couldn't sign in (bad verification code?)
-            // ...
-          });
+				setConfirmationResult(confirmationResult)
       })
       .catch((error) => {
         // Error; SMS not sent
         // ...
+        console.log(error);
       });
+    // [END auth_phone_signin]
+  }
+
+  useEffect(() => {
+    document.title = "Phone OTP";
+    phoneSignIn();
+  }, []);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    console.log("phone OTP =====> ", phoneOtp, mobile);
+
+    /** @type {firebase.auth.ConfirmationResult} */
+    // const confirmationResult = undefined;
+
+    // [START auth_phone_verify_code]
+    const code = phoneOtp;
+    confirmationResult
+      .confirm(code)
+      .then((result) => {
+        // User signed in successfully.
+        const user = result.user;
+        // ...
+				console.log(user);
+				console.log(user.phoneNumber);
+				dispatch(login(user.phoneNumber))
+				if (user && user.phoneNumber) {
+					history.push(DASHBOARD_PATH)
+				}
+
+      })
+      .catch((error) => {
+        // User couldn't sign in (bad verification code?)
+        // ...
+				console.log(error);
+      });
+    // [END auth_phone_verify_code]
   };
 
   return (
@@ -133,9 +156,7 @@ const PhoneOtpPage = () => {
                   />
                 </Grid>
 
-                {/* <Grid item xs={12}> */}
-                  <div id="recaptcha-container"></div>
-                {/* </Grid> */}
+                <div id="recaptcha-container"></div>
 
                 <Grid item xs={12}>
                   <Button

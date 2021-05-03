@@ -25,19 +25,26 @@ export const login = (phoneNumber, password) => async (dispatch) => {
     //   config
     // );
 
-    const { data } = await axios.get("http://localhost:9000/users");
+		let userInfo = {}
 
-		const user = data.filter(
-      (user) => user.phoneNumber === phoneNumber && user.password === password
-    );
+    if (password) {
+      const { data } = await axios.get("http://localhost:9000/users");
 
-		
-    const userInfo = {
-			id: user[0].id,
-      phoneNumber: user[0].phoneNumber,
-		};
-		
-		// console.log(user, '===================', userInfo);
+      const user = data.filter(
+        (user) => user.phoneNumber === phoneNumber && user.password === password
+      );
+
+      userInfo = {
+        id: user[0].id,
+        phoneNumber: user[0].phoneNumber,
+      };
+		} else {
+			userInfo = {
+        phoneNumber: phoneNumber,
+      };
+		}
+
+    // console.log(user, '===================', userInfo);
 
     dispatch({
       type: USER_LOGIN_SUCCESS,
@@ -45,8 +52,7 @@ export const login = (phoneNumber, password) => async (dispatch) => {
       payload: userInfo,
     });
 
-		localStorage.setItem("userInfo", JSON.stringify(userInfo));
-		
+    localStorage.setItem("userInfo", JSON.stringify(userInfo));
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,

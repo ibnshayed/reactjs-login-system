@@ -1,12 +1,12 @@
 import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  InputAdornment,
-  Paper,
-  TextField,
-  Typography,
+	Box,
+	Button,
+	Divider,
+	Grid,
+	InputAdornment,
+	Paper,
+	TextField,
+	Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import FacebookIcon from "@material-ui/icons/Facebook";
@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import AlertBasic from "../../components/AlertBasic";
 import { LOGIN_PATH, PHONE_OTP_PATH, SIGNUP_PATH } from "../../routes/slug";
-import firebase from "../../firebase"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,38 +40,12 @@ const LoginPhonePage = () => {
 
   useEffect(() => {
     document.title = "Sign with Phone";
-	}, []);
-	
+  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();
     console.log("phone Number =====> ", phoneNumber);
-		if (phoneNumber.length >= 11) {
-			// setUpReCaptcha();
-      const mobileNumber = phoneNumber;
-      const appVerifier = new firebase.auth.RecaptchaVerifier(
-				"recaptcha-container",
-				{
-					size: "invisible",
-					callback: (response) => {
-						// reCAPTCHA solved, allow signInWithPhoneNumber.
-						console.log('Captcha resolved');
-					},
-				}
-			);
-      firebase
-        .auth()
-        .signInWithPhoneNumber(mobileNumber, appVerifier)
-        .then((confirmationResult) => {
-          // SMS sent. Prompt user to type the code from the message, then sign the
-          // user in with confirmationResult.confirm(code).
-          window.confirmationResult = confirmationResult;
-          // ...
-        })
-        .catch((error) => {
-          // Error; SMS not sent
-          // ...
-        });
+    if (phoneNumber.length >= 11) {
       history.push(`${PHONE_OTP_PATH}/?mobile=${phoneNumber}`);
     }
   };
@@ -91,14 +64,13 @@ const LoginPhonePage = () => {
               Log in
             </Typography>
 
-            {phoneNumber &&
-              (phoneNumber.length < 11) && (
-                <Box mb={4}>
-                  <AlertBasic type="warning" title="Warning">
-                    Please enter a valid phone number
-                  </AlertBasic>
-                </Box>
-              )}
+            {phoneNumber && phoneNumber.length < 11 && (
+              <Box mb={4}>
+                <AlertBasic type="warning" title="Warning">
+                  Please enter a valid phone number
+                </AlertBasic>
+              </Box>
+            )}
 
             <form onSubmit={submitHandler} noValidate autoComplete="off">
               <Grid container spacing={4}>
@@ -119,11 +91,9 @@ const LoginPhonePage = () => {
                       ),
                     }}
                   />
-								</Grid>
-								
-								{/* <Grid item xs={12}> */}
-									<div id="recaptcha-container"></div>
-								{/* </Grid> */}
+                </Grid>
+
+                {/* <div id="recaptcha-container"></div> */}
 
                 <Grid item xs={12}>
                   <Button
