@@ -6,12 +6,12 @@
 
 ## Step 2:
 
-on project path command line run: `npm i` or `npm install`
+### on project path command line run: `npm i` or `npm install`
 
 ## Step 3:
 
-then run: `npm start`
+### then run: `npm start`
 
 ## Step 4:
 
-on another comman line run: `json-server --watch data/db.json --port 9000`
+### on another comman line run: `json-server --watch data/db.json --port 9000`
