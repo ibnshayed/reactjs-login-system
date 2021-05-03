@@ -12,7 +12,7 @@
 
 ### then run: `npm run dev`
 
-#### npm run dev runs: `npm start & json-server --watch data/db.json --port 9000`
+#### npm run dev runs helps to run: `npm start & json-server --watch data/db.json --port 9000` togather
 
 ## Number input Pattern must be start with `+`
 
